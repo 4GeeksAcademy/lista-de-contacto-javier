@@ -13,11 +13,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			contacts:[
-				{
-
-				}
-			]
+			contacts:[]
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -29,9 +25,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					fetch().then().then(data => setStore({ "foo": data.bar }))
 				*/
 			},
-			
+
 			getAllContacts: () =>{
-				fetch ('https://playground.4geeks.com/apis/fake/contact/agenda/{DavidPadilla}', {
+				fetch ('https://playground.4geeks.com/apis/fake/contact/agenda/DavidPadilla', {
 					method: "GET",
 				})
 				.then((response)=> {
@@ -39,10 +35,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return response.json()
 				})
 				.then((data)=>{
-					console.log(data);})
+					setStore({contacts:data});})
 				.catch((error)=>{
 					console.log(error)}
 				)
+				// console.log(response);
 			},
 
 			createContact: (fullName,email,phone,address) =>{
@@ -50,26 +47,31 @@ const getState = ({ getStore, getActions, setStore }) => {
 			
 				fetch ('https://playground.4geeks.com/apis/fake/contact/', {
 					method: "POST",
-					body: JSON.stringify([				
+					body: JSON.stringify(				
 						{
 						"full_name": fullName,
 						"email": email,
 						"agenda_slug": "DavidPadilla",
 						"address":address,
 						"phone":phone
-					}]),
+					}),
 					headers: {
 						"content-type": "application/json"
 					}
 				})
 				.then((response)=>{
-					response.json()})
+
+					return response.json()})
 				.then((data)=>{
 					console.log(data);})
 				.catch((error)=>{
 					console.log(error)}
 				)
 			},
+
+			// useEffect:()=>{
+			// 	getAllContacts()
+			// },[]),
 
 			changeColor: (index, color) => {
 				//get the store

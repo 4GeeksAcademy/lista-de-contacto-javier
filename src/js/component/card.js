@@ -15,6 +15,7 @@ export const Card = () => (
             </div>
             <div className="col-md-2 d-flex">
                 <i className="far fa-pencil"></i>
+                <i className="far fa-trash"></i>
             </div>
         </div>
     </div>
