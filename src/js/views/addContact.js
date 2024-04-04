@@ -15,6 +15,7 @@ export const AddContact = () => {
     function handleSubmit() {
 
         actions.createContact(fullName,email,address,phone);
+        console.log("Funciona");
     }
     
     return(
@@ -22,19 +23,19 @@ export const AddContact = () => {
    <><div className="d-flex justify-content-center"><h1>Add a new contact</h1></div>
    <form onSubmit={handleSubmit}>
         <div className="mb-3">
-            <label for="exampleInputName" className="form-label">Full name</label>
+            <label className="form-label">Full name</label>
             <input type="text" className="form-control" id="exampleInputName" aria-describedby="emailHelp" placeholder="Full name" onChange={e => setFullName(e.target.value)} value={fullName}  />
         </div>
         <div className="mb-3">
-            <label for="exampleInputEmail" className="form-label">Email</label>
+            <label className="form-label">Email</label>
             <input type="email" className="form-control" id="exampleInputEmail" placeholder="Enter email" onChange={e => setEmail(e.target.value)} value={email} />
         </div>
         <div className="mb-3">
-            <label for="exampleInputPhone" className="form-label">Phone</label>
+            <label className="form-label">Phone</label>
             <input type="text" className="form-control" id="exampleInputPhone" placeholder="Enter phone"  onChange={e => setPhone(e.target.value)} value={phone} />
         </div>
         <div className="mb-3">
-            <label for="exampleInputAddress" className="form-label">Address</label>
+            <label className="form-label">Address</label>
             <input type="text" className="form-control" id="exampleInputAddress" placeholder="Enter address" onChange={e => setAddress(e.target.value)} value={address} />
         </div>
         <div className="d-grid gap-2">
