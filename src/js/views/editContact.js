@@ -4,25 +4,28 @@ import { Context } from "../store/appContext";
 
 
 
-export const AddContact = () => {
-    const [fullName,setFullName]= useState("")
-    const [email,setEmail]= useState("")
-    const [address,setAddress]= useState("")
-    const [phone,setPhone]= useState("")
+export const EditContact = () => {
 
     const {store, actions}= useContext(Context)
-    
-    const navigate = useNavigate()
+console.log(store.contact);
+    const [fullName,setFullName]= useState(store.contact.name)
+    const [email,setEmail]= useState(store.contact.email)
+    const [address,setAddress]= useState(store.contact.address)
+    const [phone,setPhone]= useState(store.contact.phone)
+    const [id,setId]= useState(store.contact.id)
 
-    function handleSubmit() {
-        
-        actions.createContact(fullName,email,address,phone);
+    const navigate = useNavigate()
+    
+    function handleSubmit(e) {
+        e.preventDefault()
+        actions.editContact(fullName,email,address,phone,id);
+ 
         navigate("/");
     }
     
     return(
     
-   <><div className="d-flex justify-content-center"><h1>Add a new contact</h1></div>
+   <><div className="d-flex justify-content-center"><h1>Edit a contact</h1></div>
    <form onSubmit={handleSubmit}>
         <div className="mb-3">
             <label className="form-label">Full name</label>

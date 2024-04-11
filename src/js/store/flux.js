@@ -13,7 +13,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			contacts:[]
+			contacts:[],
+			contact:{},
+			contactToDelete:{}
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -26,14 +28,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 				*/
 			},
 
+			seeContact: (contact) => {
+				setStore({contact:contact})
+			},
+
+			setContactToDelete: (contact) => {
+				setStore({contactToDelete:contact})
+
+			},
+
 			getAllContacts: () =>{
 				fetch ('https://playground.4geeks.com/contact/agendas/DavidPadilla', {
 					method: "GET",
 				})
 				.then((response)=> {
-					// if (response.status === 404) {
-					// 	createAgenda()
-					// }
+					if (response.status === 404) {
+						createAgenda();
+					}
 					return response.json()
 				})
 				.then((data)=>{
@@ -57,6 +68,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					return response.json()})
 				.then((data)=>{
+
 					console.log(data);})
 				.catch((error)=>{
 					console.log(error)}
@@ -89,6 +101,54 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(error)}
 				)
 			},
+
+			deleteContact: (id) =>{
+				// console.log(fullName,email,address,phone);
+			
+				fetch ('https://playground.4geeks.com/contact/agendas/DavidPadilla/contacts/'+id, {
+					method: "DELETE",
+					headers: {
+						"content-type": "application/json"
+					}
+				})
+				.then((response)=>{
+
+					return response.json()})
+				.then((data)=>{
+					getAllContacts();
+					console.log(data);})
+				.catch((error)=>{
+					console.log(error)}
+				)
+			},
+
+			editContact: (fullName,email,phone,address,id) =>{
+				console.log(fullName,email,address,phone,id);
+			
+				fetch ('https://playground.4geeks.com/contact/agendas/DavidPadilla/contacts/'+id, {
+					method: "PUT",
+					body: JSON.stringify(				
+						{
+						"name": fullName,
+						"phone":phone,
+						"email": email,
+						"address":address
+						
+					}),
+					headers: {
+						"content-type": "application/json"
+					}
+				})
+				.then((response)=>{
+
+					return response.json()})
+				.then((data)=>{
+					console.log(data);})
+				.catch((error)=>{
+					console.log(error)}
+				)
+			},
+
 
 			// useEffect:()=>{
 			// 	getAllContacts()

@@ -1,8 +1,9 @@
-import React, { Component, useContext, useEffect, useState } from "react";
+import React, { Component, useContext, useEffect, useState, useSyncExternalStore } from "react";
 
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { ModalDelete } from "../component/modalDelete";
+import { useNavigate } from "react-router-dom";
 
 export const Contact = () => {
     const [state, setState] = useState ({
@@ -10,16 +11,19 @@ export const Contact = () => {
     })
     const {store, actions}= useContext(Context)
 
+    const navigate = useNavigate()
+
     useEffect(()=>{
+        actions.createAgenda()
 		actions.getAllContacts()
 	},[]);
 
     function showModal() {
         setState({view: "block"})
-        console.log(state);
     }
 
-    console.log(store.contacts);
+
+    // console.log(store.contacts);
     return(        
     <><div className="container">        
     <div className="d-flex justify-content-end">
@@ -27,6 +31,7 @@ export const Contact = () => {
     </div>
 
     {store.contacts?.map((contact)=>{
+
 return ( 
         <div className="card mb-3" key={contact.id}>
         <div className="row g-0 text-black">
@@ -42,8 +47,14 @@ return (
                 </div>
             </div>
             <div className="col-2 d-flex">
-                <div><i className="fa fa-pen p-2 m-3"/></div>
-                <div><i className="fa fa-trash p-2 m-3" onClick={showModal}/></div>
+                <div onClick={()=>{
+                    actions.seeContact(contact)
+                    navigate("/edit-contact")
+                }}><i className="fa fa-pen p-2 m-3" /></div>
+                <div><i className="fa fa-trash p-2 m-3" onClick={()=>{
+                    showModal()
+                    actions.setContactToDelete(contact)
+                }}/></div>
             </div>
         </div>
     </div>
@@ -51,7 +62,7 @@ return (
 )
 
 })}
-<ModalDelete view={state.view} closeModal={()=>setState({view:"none"})} />
+<ModalDelete stateModal={state} setModal={setState} />
 
 
 </div>

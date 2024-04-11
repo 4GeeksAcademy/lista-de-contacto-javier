@@ -6,9 +6,10 @@ import ScrollToTop from "./component/scrollToTop";
 import injectContext from "./store/appContext";
 
 
-import { Footer } from "./component/footer";
+
 import { AddContact } from "./views/addContact";
 import { Contact } from "./views/contact";
+import { EditContact } from "./views/editContact";
 
 //create your first component
 const Layout = () => {
@@ -24,9 +25,9 @@ const Layout = () => {
 						<Route path="/" element={<Contact />} />
 						<Route path="/add-contact" element={<AddContact />} />
 						<Route path="*" element={<h1>Not found!</h1>} />
-						
+						<Route path="/edit-contact" element={<EditContact />} />
 					</Routes>
-					<Footer />
+
 				</ScrollToTop>
 			</BrowserRouter>
 		</div>

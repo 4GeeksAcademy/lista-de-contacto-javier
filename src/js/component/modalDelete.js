@@ -1,29 +1,32 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
+import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 export const ModalDelete = (props) => {
 
-    // const [state, setState] = useState ({
-    //     view: "none"
-    // })
+    const {store, actions}= useContext(Context)
 
-    function closeModal() {
-        setState({view: "none"})
-        console.log(state);
-    }
+    const navigate = useNavigate()
+
     return (    
-    <div className="modal" tabIndex="-1" style={{display:props.view}}>
+    <div className="modal" tabIndex="-1" style={{display:props.stateModal.view}}>
         <div className="modal-dialog">
             <div className="modal-content">
                 <div className="modal-header">
-                    <h5 className="modal-title">Modal title</h5>
-                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModal}></button>
+                    <h5 className="modal-title">Are you sure?</h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>{props.setModal({view:"none"})}}></button>
                 </div>
                 <div className="modal-body">
-                    <p>Modal body text goes here.</p>
+                    <p>If you delete this person, it will be as if you never met him!</p>
                 </div>
                 <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={closeModal}>Close</button>
-                    <button type="button" className="btn btn-primary">Save changes</button>
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={()=>{props.setModal({view:"none"})}}>Close</button>
+                    <button type="button" className="btn btn-primary" onClick={()=>{
+
+                        actions.deleteContact(store.contactToDelete.id)
+                        props.setModal({view:"none"})
+                        window.location.reload(false)
+                        }}>Erase him!</button>
                 </div>
             </div>
         </div>
